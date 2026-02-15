@@ -103,7 +103,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
      * @returns {Promise<{success: boolean, message: string, data: any}>} A promise that resolves with an object containing a success message and the data from the API call.
      */
     const register = async (email: string, password: string) => {
-        
+        if(!email || !password) return { success: false, email: 'Please enter email', password: 'Please enter password' }
+
+        if(!email.includes('@') || !email.includes('.')){
+            return { success: false, email: 'Please enter a valid email' }
+        }
+
+        if(password.length < 8){
+            return { success: false, password: 'Password must be at least 8 characters' }
+        }
         const response = await fetch(import.meta.env.VITE_API_URL + '/auth/register',{
             method: 'POST',
             headers: {
@@ -120,7 +128,11 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const data = await response.json();
         
-        return { success: true, message: 'Registered successfully', data };
+        if(!data.success){
+            return { success: false, email: data.message }
+        }
+        
+        return { success: true, message: 'Registered successfully' };
         
     }
 
@@ -131,6 +143,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
      * @returns {Promise<{success: boolean, message: string, data: any}>} A promise that resolves with an object containing a success message and the data from the API call.
      */
     const fetchUser = async () => {
+        if(!token) return;
         const response = await fetch(import.meta.env.VITE_API_URL + '/api/users/current-user', {
             method: 'GET',
             headers: {

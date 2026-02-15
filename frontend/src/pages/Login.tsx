@@ -12,6 +12,7 @@ function Login() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
   
   /**
    * Handles the registration form submission.
@@ -19,24 +20,25 @@ function Login() {
    * If the signIn function returns an error, it will display an alert with the error message.
    * @param {any} e - The form submission event.
    */
-  const handleRegister = async (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
 
     const result = await signIn(email, password);
     if(!result.success){
-      alert(result.message);
+      setError(result.message);
     }
   }
 
   return (
     <div className='w-screen h-screen flex flex-col gap-5 items-center justify-center'>
       <h2>Sign In</h2>
-      <form method='post' onSubmit={handleRegister} className='flex flex-col gap-5'>
-        <TextField id="email" label="Email" variant="outlined" name='email' onChange={(e) => setEmail(e.target.value)} />
-        <TextField id="password" label="Password" type='password' variant="outlined" name='password' onChange={(e) => setPassword(e.target.value)} />
+      <form method='post' onSubmit={handleLogin} className='flex flex-col gap-5'>
+        <TextField id="email" label="Email" variant="outlined" name='email' onChange={(e) => setEmail(e.target.value)} error={error !== '' ? true : false} helperText={error ? error : ''}/>
+        <TextField id="password" label="Password" type='password'  variant="outlined" name='password' onChange={(e) => setPassword(e.target.value)} error={error !== '' ? true : false} helperText={error ? error : ''}/>
 
         <Button type='submit' variant='contained'>Sign In</Button>
       </form>
+      <p>Don't have an account? <a href='/register'>Register</a></p>
     </div>
   )
 }
