@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+mysqlclient
+Flask-JWT-Extended
+Flask-Marshmallow
+Flask-CORS
