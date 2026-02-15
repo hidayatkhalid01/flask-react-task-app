@@ -64,15 +64,17 @@ npm run dev
 4. The frontend will run at [http://localhost:5173](http://localhost:5173)
 
 ## Docker Setup
-1. From project root, run
+1. Inside frontend directory, clone .env.example and rename it to .env
+
+2. From project root, run
 ```bash
 docker compose up --build
 ```
-2. Then run a database migration in a new terminal
+3. Then run a database migration in a new terminal
 ```bash
 docker compose exec backend flask db upgrade
 ```
-3. Now you can access the app at: 
+4. Now you can access the app at: 
 - Frontend: [http://localhost:5173](http://localhost:5173)
 - Backend [http://localhost:5000](http://localhost:5000)
 - Database localhost:3306
